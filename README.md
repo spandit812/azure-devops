@@ -11,4 +11,5 @@ mvn compile
 mvn test
 mvn package
 mvn clean package
+mvn site --> it is used to create documents
 </pre>
