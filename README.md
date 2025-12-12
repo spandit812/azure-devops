@@ -10,4 +10,5 @@ mvn validate
 mvn compile
 mvn test
 mvn package
+mvn clean package
 </pre>
