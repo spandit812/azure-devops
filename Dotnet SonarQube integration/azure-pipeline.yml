@@ -1,0 +1,69 @@
+trigger:
+  - main
+
+pool: mypool
+
+stages:
+  - stage: Build
+    jobs:
+      - job: BuildJob
+        pool: mypool
+        steps:
+          - task: UseDotNet@2
+            displayName: 'Use .NET 10 SDK'
+            inputs:
+              packageType: 'sdk'
+              version: '10.0.101' 
+          - task: SonarQubePrepare@8
+            inputs:
+              SonarQube: 'SonarQube Service connection'
+              scannerMode: 'dotnet'
+              projectKey: 'dotnet-proj-01_dotnet-proj-01_2521fff6-3f06-40d2-8135-bdebdc4dea7b'
+              projectName: 'dotnet-proj-01'
+          - task: DotNetCoreCLI@2
+            displayName: 'dotnet build'
+            inputs:
+              command: 'build'
+              projects: '**/pipeline-001.slnx'
+              arguments: '-c Release -f net10.0 /m:1'
+          - task: DotNetCoreCLI@2
+            displayName: 'dotnet test with coverage'
+            inputs:
+              command: 'test'
+              projects: '**/TestProject1.csproj'
+              arguments: >
+                -c Release
+                --no-build
+                --collect:"XPlat Code Coverage"
+              
+          - task: SonarQubeAnalyze@8
+            inputs:
+              jdkversion: 'JAVA_HOME'
+          - task: PublishCodeCoverageResults@1
+            displayName: 'Publish code coverage'
+            inputs:
+              codeCoverageTool: 'Cobertura'
+              summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+          - task: SonarQubePublish@8
+            inputs:
+              pollingTimeoutSec: '300'
+
+  - stage: Deploy
+    dependsOn: Build
+    jobs:
+      - job: DeployJob
+        pool: mypool
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: 'dotnet publish'
+            inputs:
+              command: 'publish artifact'
+              projects: '**/pipeline-001.csproj'
+              arguments: '-c Release -f net10.0 --output $(Build.ArtifactStagingDirectory)'
+              publishWebProjects: false
+              zipAfterPublish: false
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish artifact'
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'drop'

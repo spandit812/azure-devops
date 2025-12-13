@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="pipeline-001/pipeline-001.csproj" />
+  <Project Path="PipelineApp/PipelineApp.csproj" Id="4d89421e-a6cb-4d00-99a4-ab861584b486" />
+  <Project Path="TestProject1/TestProject1.csproj" Id="7eb0bad5-6a2b-4bf4-9b59-1f193b3400e3" />
+</Solution>
