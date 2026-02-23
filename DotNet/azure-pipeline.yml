@@ -8,7 +8,6 @@ stages:
   - stage: Build
     jobs:
       - job: BuildJob
-        pool: mypool
         steps:
           - task: DotNetCoreCLI@2
             displayName: 'dotnet build'
@@ -20,7 +19,6 @@ stages:
     dependsOn: Build
     jobs:
       - job: DeployJob
-        pool: mypool
         steps:
           - task: DotNetCoreCLI@2
             displayName: 'dotnet publish'
