@@ -1,7 +1,8 @@
 trigger:
   - main
 
-pool: mypool
+pool: 
+ vmImage: 'windows-latest'
 
 stages:
   - stage: Build
