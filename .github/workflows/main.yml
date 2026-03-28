@@ -10,6 +10,9 @@ on:
 concurrency:
   group: issue-${{ github.event.issue.number }}
   cancel-in-progress: false
+permissions:
+  issues: write
+  contents: read
 
 jobs:
   alert:
