@@ -25,6 +25,7 @@ jobs:
           github_token: "${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}"
           ado_organization: "spandit812"
           ado_project: "dotnet-proj-01"
+          ado_area: "dotnet-proj-01\\dotnet-proj-01 Team"
           ado_wit: "Task"
           ado_new_state: "To Do"
           ado_active_state: "Doing"
