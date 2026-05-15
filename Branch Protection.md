@@ -6,7 +6,3 @@ If you want to protect your **main** branch, Go to main branch and add branch po
 
 2. You can **link work item** as well in the branch policy, which restricts the developers and asks to add workitme with the pull request.
 
-3. 
-
-
-
